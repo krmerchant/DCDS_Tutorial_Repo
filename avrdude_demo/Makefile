@@ -2,7 +2,7 @@ DEVICE     = atmega328p
 CLOCK      = 16000000UL
 PROGRAMMER = arduino
 PORT       = /dev/tty.usbmodem1421
-BAUD       = 9600
+BAUD       = 115200
 FILENAME   = blink
 COMPILE    = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
 
