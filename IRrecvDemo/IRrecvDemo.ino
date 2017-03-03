@@ -9,8 +9,14 @@
 #include <IRremote.h>
 #include <Servo.h>
 #include <Stepper.h>
-#define TURN_TIME 100
+#define TURN_TIME 10
 #define STEPS 100
+#define MAX_ANGLE 180
+#define MIN_ANGLE 20
+
+#define LEFT 16720605
+#define RIGHT 16761405
+
 
 
 int RECV_PIN =3;
@@ -25,33 +31,33 @@ Servo myservo;
 Stepper stepper(STEPS , 8,9,10,11);
 int pos = 0;
 
-
+//turn counterclockwise
 void  counter_clock() {
     
      
        
+     int i;
+     for(i = MIN_ANGLE; i < MAX_ANGLE; i++ ) {
+
+             //delay(TURN_TIME); 
+     	     myservo.write(i);
     
-     delay(TURN_TIME); 
-     myservo.write(150);
-    
- 
-    
+      } 
   
- 
   
 }
 
+//turn clockwise 
 void clock() {
   
-  
-  
-   delay(TURN_TIME);
-   myservo.write(50);
- 
-    
-  
-  
-  
+   int i;	
+   for(i = MAX_ANGLE; i > MIN_ANGLE; i--) {
+
+   	delay(TURN_TIME);
+        myservo.write(i);
+
+
+   }  
 }
 
 
@@ -66,12 +72,7 @@ void setup()
 }
 
 void loop() {
-//  
-//  if(flag) {
-//     counter_clock();
-//     flag = false; 
-//    
-//  }
+
   
   
   if (irrecv.decode(&results)) {
@@ -79,22 +80,21 @@ void loop() {
     
     int result = results.value;
 
-
-     //BEGIN STATE MACHINE
-     
-    switch(results) {      
-         case 16761405: 
+    switch(result) {      
+         case RIGHT: 
              counter_clock();
             break; 
-        case  16720605:
+        case  LEFT:
              clock();
              break;
-        default:  
+        default:
+             break;   
     }
       
     irrecv.resume(); // Receive the next value
    
   }
+  //irrecv.resume();
   
   
   

@@ -12,22 +12,32 @@
  */
  
 #include <stdio.h>
-
+#include <avr/io.h>
 #include "uart.h"
+#include <util/delay.h>
 
+#define BLINK_DELAY 10000
 int main(void) {    
 
+	//set up serial communication
     uart_init();
     stdout = &uart_output;
     stdin  = &uart_input;
-                
-    char input;
+    
+	//set pin as input
+	DDRB  = 0x00;
+	PORTB = 0x00;	            
+
+
+	
 
     while(1) {
-        puts("Hello world!");
-        input = getchar();
-        printf("You wrote %c\n", input);        
-    }
+    	
+
+		fprintf(stdout, "Sensor reading:/n");
+		_delay_ms(1000);
+	}
+
         
     return 0;
 }
